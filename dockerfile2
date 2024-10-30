@@ -1,4 +1,0 @@
-# Dockerfile de test
-FROM alpine:latest
-RUN echo "Hello, world! 2" > /hell2.txt
-CMD ["cat", "/hell2.txt"]

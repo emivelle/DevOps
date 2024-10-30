@@ -13,22 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker image 1
+      - name: Build Docker image
         run: |
-          docker build -t emivelle/monapp1 -f dockerfile .
-
-      - name: Build Docker image 2
-        run: |
-          docker build -t emivelle/monapp2 -f dockerfile2 .
+          docker build -t emivelle/phpmyadmin -f dockerfile .
 
       - name: Login to Docker Hub
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Publish Docker Image 1
+      - name: Publish Docker Image
         run: |
-          docker push emivelle/monapp1
-
-      - name: Publish Docker Image 2
-        run: |
-          docker push emivelle/monapp2
+          docker push emivelle/phpmyadmin
