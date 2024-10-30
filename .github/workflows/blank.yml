@@ -15,11 +15,11 @@ jobs:
 
       - name: Build Docker image 1
         run: |
-          docker build -t emivelle/monapp1 .dockerfile
+          docker build -t emivelle/monapp1 -f dockerfile .
 
       - name: Build Docker image 2
         run: |
-          docker build -t emivelle/monapp2 .dockerfile2
+          docker build -t emivelle/monapp2 -f dockerfile2 .
 
       - name: Login to Docker Hub
         run: |
