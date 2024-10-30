@@ -1,0 +1,32 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Ajouter l'utilisateur actuel au groupe Docker
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Download Minikube binary
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: '0755'
+
+    - name: Récupérer la version stable de kubectl
+      uri:
+        url: https://dl.k8s.io/release/stable.txt
+        return_content: yes
+      register: kubectl_version
+
+    - name: Installer kubectl
+      get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_version.content }}/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Start Minikube
+      become: false
+      command: minikube start driver=docker
+      args:
+        creates: /home/{{ ansible_user }}/.minikube

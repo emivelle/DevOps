@@ -1,0 +1,14 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Pull Docker image from Docker Hub
+      docker_image:
+        name: "emivelle/phpmyadmin" 
+        tag: "latest"
+        pull: yes
+
+    - name: Set up a cron job to pull the Docker image every 10 minutes
+      cron:
+        name: "Pull Docker image"
+        minute: "*/10"
+        job: "/usr/bin/docker pull emivelle/phpmyadmin"  
