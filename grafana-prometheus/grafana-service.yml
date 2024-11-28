@@ -8,6 +8,7 @@ spec:
   selector:
     app: grafana
   ports:
-    - port: 8080       # Port externe du service
-      targetPort: 3000  # Port du conteneur Grafana
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
   type: NodePort

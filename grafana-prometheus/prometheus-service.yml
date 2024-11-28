@@ -8,6 +8,7 @@ spec:
   selector:
     app: prometheus
   ports:
-    - port: 9090       # Port externe du service
-      targetPort: 9090  # Port du conteneur Prometheus
+  - protocol: TCP
+    port: 9090
+    targetPort: 9090
   type: NodePort

@@ -1,14 +1,32 @@
 - hosts: all
   become: true
   tasks:
-    - name: Pull Docker image from Docker Hub
-      docker_image:
-        name: "emivelle/phpmyadmin" 
-        tag: "latest"
-        pull: yes
+
+#    - name: First pull of the Docker image from Docker Hub
+#      docker_image:
+#        name: "emivelle/phpmyadmin" 
+#        tag: "latest"
+#        state: "present"
+ 
+    - name: First pull of the Docker image from Docker Hub
+      command: "/usr/bin/docker pull emivelle/phpmyadmin"   
 
     - name: Set up a cron job to pull the Docker image every 10 minutes
       cron:
         name: "Pull Docker image"
         minute: "*/10"
-        job: "/usr/bin/docker pull emivelle/phpmyadmin"  
+        job: "/usr/bin/docker pull emivelle/phpmyadmin && kubectl apply -f phpmyadmin/projet.yaml"
+              
+#    - name: Modify projet.yaml to use the latest Docker image
+#      ansible.builtin.lineinfile:
+#        path: phpmyadmin/projet.yaml
+#        regexp: '^image: emivelle/phpmyadmin'
+#        line: 'image: emivelle/phpmyadmin'
+#
+#    - name: Apply minikube yaml
+#      command: kubectl apply -f phpmyadmin/projet.yaml
+
+
+
+
+       
