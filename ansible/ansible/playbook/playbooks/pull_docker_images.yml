@@ -9,13 +9,13 @@
 #        state: "present"
  
     - name: First pull of the Docker image from Docker Hub
-      command: "/usr/bin/docker pull emivelle/phpmyadmin"   
+      command: "/usr/bin/docker pull emivelle/phpmyadmin && kubectl apply -f secret.yml && kubectl apply -f phpmyadmin/projet.yml"   
 
     - name: Set up a cron job to pull the Docker image every 10 minutes
       cron:
         name: "Pull Docker image"
         minute: "*/10"
-        job: "/usr/bin/docker pull emivelle/phpmyadmin && kubectl apply -f phpmyadmin/projet.yaml"
+        job: "/usr/bin/docker pull emivelle/phpmyadmin && kubectl apply -f secret.yml && kubectl apply -f phpmyadmin/projet.yml"
               
 #    - name: Modify projet.yaml to use the latest Docker image
 #      ansible.builtin.lineinfile:
